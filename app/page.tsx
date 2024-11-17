@@ -1,9 +1,5 @@
 "use client";
-import Link from 'next/link';
 import Image from 'next/image';
-import { prisma } from '@/lib/prisma';
-import styles from './products.module.css';
-import dynamic from "next/dynamic";
 import { Carousel } from "react-responsive-carousel";
 import { Products } from "../components/products";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
