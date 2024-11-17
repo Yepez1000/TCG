@@ -1,7 +1,6 @@
 "use client";
 import Image from 'next/image';
 import { Carousel } from "react-responsive-carousel";
-import { Products } from "../components/products";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import useSWR from "swr";
 import SortFilter  from "../components/filter";
