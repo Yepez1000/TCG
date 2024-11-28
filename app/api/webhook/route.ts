@@ -7,7 +7,6 @@ import { prisma } from '@/lib/prisma';
 async function fulfillCheckout(sessionId: String) {
     // Set your secret key. Remember to switch to your live secret key in production.
     // See your keys here: https://dashboard.stripe.com/apikeys
-    const stripe = require('stripe')('sk_test_51QFPThCORXixF1q5M721voqhf68ThtW8CKllmuSaC5biqLIEMILA8lmRdslv3XnoUeThbum9LeYMx3VSNbaeuviK00P95fMRhO');
 
     console.log('Fulfilling Checkout Session ' + sessionId);
 
