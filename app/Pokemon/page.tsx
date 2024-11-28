@@ -7,6 +7,7 @@ const fetchPokemon = async () => {
             category: "pokemon"
         }
     })
+    console.log("this is products", products)
     return products
 }
 

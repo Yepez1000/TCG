@@ -9,10 +9,27 @@ import { Card, CardContent } from "@/components/import/card"
 import { Badge } from "@/components/import/badge"
 import { Upload, DollarSign, Package, Tag } from 'lucide-react'
 import { link } from 'fs'
+import { useSession } from 'next-auth/react'
+import useSWR from 'swr'
 
+const fetcher = async (url: string, email: string) => {
+
+    const response = await fetch(url,{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+    })
+    if(!response.ok){throw new Error("Failed to fetch data")}
+
+    return response.json()
+}
 
 
 export default function Page() {
+
+   
     interface Product {
       name: string;
       description: string;
@@ -35,6 +52,26 @@ export default function Page() {
       priceId: '',
     });
     const [previewImage, setPreviewImage] = useState('')
+
+    const { data: status } = useSession();
+
+    const email = status?.user?.email
+
+    const {data, error, isLoading} = useSWR(
+        email ? ["/api/verify-user", email] : null,
+        ([url, email]) => fetcher(url, email)
+    )
+
+  
+    if (error|| !data?.isSuperUser) {
+        return (
+            <div className="flex items-center justify-center h-screen">
+                <h1 className="text-3xl font-bold">You do not have permission to access this page.</h1>
+            </div>
+        )
+
+    }
+
 
     const handleInputChange = (e:any) => {
         const { name, value } = e.target

@@ -9,6 +9,8 @@ import { Trash2, Plus, Minus } from "lucide-react"
 import { CartContext } from '../CartContext'
 import { useContext } from 'react'
 import { CartCheckoutButton } from '@/components/cartcheckout'
+import { useSession } from 'next-auth/react'
+import useSWR from 'swr'
 
 type CartItem = {
     id: number
@@ -17,12 +19,34 @@ type CartItem = {
     quantity: number
     image: string
 }
+const fetchCartItems = async (url: string) => {
+    const res = await fetch(url);
 
+    if (!res.ok) {
+        throw new Error("Failed to fetch data");
+    }
+
+    return res.json();
+}
 export default function ShoppingCart() {
+
+    const { data: session } = useSession()
 
     const cart = useContext(CartContext);
 
-    const total = cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    const total = cart.items.reduce((sum, item) => sum + item.product.price * item.quantity, 0)
+
+
+    console.log("this is cart items",cart.items)
+
+
+    const { data, isLoading, error } = useSWR("/api/cartItems", fetchCartItems);
+
+    // console.log("this is swr data",data.items)
+
+   
+
+    
 
     return (
         <Card className="w-full max-w-3xl mx-auto">
@@ -46,17 +70,17 @@ export default function ShoppingCart() {
                             <TableRow key={item.id}>
                                 <TableCell>
                         
-                                    <img src={item.imageUrl} alt={item.name} className="w-20 h-auto object-contain" />
+                                    <img src={item.product.imageUrl} alt={item.product.name} className="w-20 h-auto object-contain" />
                                 </TableCell>
-                                <TableCell>{item.name}</TableCell>
-                                <TableCell>${item.price.toFixed(2)}</TableCell>
+                                <TableCell>{item.product.name}</TableCell>
+                                <TableCell>${item.product.price}</TableCell>
                                 <TableCell>
                                     <div className="flex items-center space-x-2">
                                         <Button
                                             variant="outline"
                                             size="icon"
-                                            onClick={() => cart.RemoveOnefromCart(item.id)}
-                                            aria-label={`Decrease quantity of ${item.name}`}
+                                            onClick={() => cart.removeOneFromCart(item.id)}
+                                            aria-label={`Decrease quantity of ${item.product.name}`}
                                         >
                                             <Minus className="h-4 w-4" />
                                         </Button>
@@ -66,25 +90,25 @@ export default function ShoppingCart() {
                                             value={item.quantity}
                                             // onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
                                             className="w-16 text-center"
-                                            aria-label={`Quantity of ${item.name}`}
+                                            aria-label={`Quantity of ${item.product.name}`}
                                         />
                                         <Button
                                             variant="outline"
                                             size="icon"
-                                            onClick={() => cart.addOneToCart(item)}
-                                            aria-label={`Increase quantity of ${item.name}`}
+                                            onClick={() => cart.addOneToCart(item.product)}
+                                            aria-label={`Increase quantity of ${item.product.name}`}
                                         >
                                             <Plus className="h-4 w-4" />
                                         </Button>
                                     </div>
                                 </TableCell>
-                                <TableCell>${(item.price * item.quantity).toFixed(2)}</TableCell>
+                                <TableCell>${(item.product.price * item.quantity).toFixed(2)}</TableCell>
                                 <TableCell>
                                     <Button
                                         variant="destructive"
                                         size="icon"
-                                        onClick={() => cart.deletefromCart(item.id)}
-                                        aria-label={`Remove ${item.name} from cart`}
+                                        onClick={() => cart.deleteFromCart(item.id)}
+                                        aria-label={`Remove ${item.product.name} from cart`}
                                     >
                                         <Trash2 className="h-4 w-4" />
                                     </Button>
@@ -95,7 +119,7 @@ export default function ShoppingCart() {
                 </Table>
             </CardContent>
             <CardFooter className="flex justify-between items-center">
-                <div className="text-2xl font-bold">Total: ${total.toFixed(2)}</div>
+                <div className="text-2xl font-bold">Total: ${total}</div>
 
                 <CartCheckoutButton products={cart.items} />
             </CardFooter>

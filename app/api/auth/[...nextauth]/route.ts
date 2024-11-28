@@ -4,12 +4,24 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { prisma } from '@/lib/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
+import { DefaultSession } from "next-auth";
+
+declare module "next-auth" {
+    interface Session {
+        user: {
+            id: string; // Add `id` here
+        } & DefaultSession["user"];
+    }
+}
 
 
 
 
 export const authOptions: NextAuthOptions = {
-    // secret: process.env.NEXTAUTH_SECRET,
+    // session: {
+    //     strategy: "jwt", // Use JWT for sessions
+    // },
+    secret: process.env.NEXTAUTH_SECRET,
     // adapter: PrismaAdapter(prisma),
     providers: [
         GoogleProvider ({
@@ -24,15 +36,42 @@ export const authOptions: NextAuthOptions = {
             // }
         }),
     ],
-    // callbacks: {
-    //     async session({ session, user }) {
-    //         if (user) {
-    //             session.user.id = user.id;
-    //             session.user.email = user.email;
-    //         }
-    //         return session;
-    //     },
-    // },
+    callbacks: {
+        async session({ session, user, token}) {
+
+            const email = session.user?.email || "";
+            const name = session.user?.name || "";
+            const image = session.user?.image || "";
+
+
+
+       
+            if (email) {
+                let user = await prisma.user.findUnique({
+                    where: { email }
+                });
+               
+
+                if (!user) {
+                    user = await prisma.user.create({
+                        data: {
+                            email,
+                            name: name || null,
+                            image: image || null,
+                            cart: {
+                                create: {} // Creates an empty Cart for the user
+                            },
+                            ShippingAddresses: {
+                                create: [] // Initializes with no addresses
+                            }
+                        }
+                    });
+                }
+                session.user.id = user.id;
+            }
+            return session;
+        },
+    },
 };
 
 const handler = NextAuth(authOptions);

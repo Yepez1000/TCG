@@ -45,13 +45,16 @@ export function CartCheckoutButton(products: any) {
             return;
         }
 
+        console.log("productArray",productArray)
+
         productArray.forEach((product: any) => {
 
             lineItems.push({
-                price: product.priceId,
+                price: product.product.priceId,
                 quantity: product.quantity
             })
         })
+
 
         console.log("lineItems",lineItems)
 

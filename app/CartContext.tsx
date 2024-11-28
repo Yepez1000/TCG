@@ -1,33 +1,42 @@
 "use client";
 
-import { createContext, useState, ReactNode } from "react";
+import { createContext, useState, useEffect, ReactNode } from "react";
 import { toast } from "react-hot-toast";
+import { useSession } from "next-auth/react";
+import { prisma } from "@/lib/prisma";
 
+
+
+type Item = {
+    id: string;
+    product: Product;
+    quantity: number;
+}
 type Product = {
-    id: any; // or specify a specific type for `id` if possible
+    id: string;
     quantity: number;
     price: number;
     name: string;
     imageUrl: string;
-    stock : number
+    stock: number;
 };
 
 type CartContextType = {
-    items: Product[];
-    getProductQuantity: (id: any) => number;
-    addOneToCart: (product: Product) => void;
-    RemoveOnefromCart: (id: any) => void;
-    deletefromCart: (id: any) => void;
-    TotalCost: (product: Product) => number;
+    items: Item[];
+    getProductQuantity: (id: string) => number;
+    addOneToCart: (product: Product) => Promise<void>;
+    removeOneFromCart: (id: string) => Promise<void>;
+    deleteFromCart: (id: string) => Promise<void>;
+    totalCost: () => number;
 };
 
 export const CartContext = createContext<CartContextType>({
     items: [],
     getProductQuantity: () => 0,
-    addOneToCart: () => { },
-    RemoveOnefromCart: () => { },
-    deletefromCart: () => { },
-    TotalCost: () => 0,
+    addOneToCart: async () => { },
+    removeOneFromCart: async () => { },
+    deleteFromCart: async () => { },
+    totalCost: () => 0,
 });
 
 type Props = {
@@ -35,70 +44,144 @@ type Props = {
 };
 
 export function CartProvider({ children }: Props) {
-    const [cartProducts, setCartProducts] = useState<Product[]>([]);
+    const [cartProducts, setCartProducts] = useState<Item[]>([]); 
+    const { data: session } = useSession();
 
-    function getProductQuantity(id: any) {
-        const quantity = cartProducts.find(product => product.id === id)?.quantity;
-        return quantity || 0;
+    // Fetch the cart when the session loads
+    useEffect(() => {
+        if (session) {
+            fetchCartFromDatabase();
+        }
+    }, [session]);
+
+    // Fetch cart items from the database
+    async function fetchCartFromDatabase() {
+        try {
+            const response = await fetch("/api/cart"); // Replace with your API route
+            const cart = await response.json();
+            console.log(cart.items.product);
+            setCartProducts(cart.items);
+        } catch (error) {
+            console.error("Failed to fetch cart:", error);
+        }
     }
 
-    function addOneToCart(product: Product) {
+    // Get quantity of a product in the cart
+    function getProductQuantity(id: string) {
+
+        console.log("got to get quantity")
+        
+        const quantity = cartProducts?.find((product) => product.id === id)?.quantity || 0;
+
+        console.log("got quantity",quantity)
+        return quantity;
+    }
+
+    // Add one to cart (optimistic update)
+    async function addOneToCart(product: Product) {
+
+        console.log("got to add one")
         const quantity = getProductQuantity(product.id);
 
+        console.log("this is session",session)
+
+        
+
+        // Optimistic local update
 
         if (quantity === 0) {
-            setCartProducts([
-                ...cartProducts,
-                { ...product, quantity: 1 },
-            ]);
-        
-        } 
-        else if (quantity >= product.stock){
-            toast.error("This card is out of stock")
+            setCartProducts([...cartProducts, {id: product.id, product: product, quantity: 1 }]);
+        }
+        else if (quantity >= product.stock) {
+            return toast.error("Out of stock");
         }
         else {
             setCartProducts(
-                cartProducts.map(card => product.id === card.id? { ...card, quantity: card.quantity + 1 }: card
+                cartProducts.map((item) =>
+                    item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
                 )
             );
         }
+
+        try {
+            // Sync with database
+            await fetch("/api/cart", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ productId: product.id, action: "add" }),
+            });
+        } catch (error) {
+            toast.error("Failed to add to cart");
+            // Revert local update
+            fetchCartFromDatabase();
+        }
     }
 
-    function RemoveOnefromCart(id: any) {
+    // Remove one from cart (optimistic update)
+    async function removeOneFromCart(id: string) {
         const quantity = getProductQuantity(id);
 
+        // Optimistic local update
         if (quantity === 1) {
-            deletefromCart(id);
+            setCartProducts(cartProducts.filter((product) => product.id !== id));
         } else {
             setCartProducts(
-                cartProducts.map(product =>
-                    product.id === id
-                        ? { ...product, quantity: product.quantity - 1 }
-                        : product
+                cartProducts.map((item) =>
+                    item.id === id ? { ...item, quantity: item.quantity - 1 } : item
                 )
             );
         }
+
+        try {
+            // Sync with database
+            await fetch("/api/cart", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ productId: id, action: "remove" }),
+            });
+        } catch (error) {
+            toast.error("Failed to update cart");
+            // Revert local update
+            fetchCartFromDatabase();
+        }
     }
 
-    function deletefromCart(id: any) {
-        setCartProducts(cartProducts.filter(product => product.id !== id));
+    // Delete a product from the cart
+    async function deleteFromCart(id: string) {
+        const updatedCart = cartProducts.filter((product) => product.id !== id);
+
+        // Optimistic local update
+        setCartProducts(updatedCart);
+
+        try {
+            // Sync with database
+            await fetch("/api/cart", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ productId: id }),
+            });
+        } catch (error) {
+            toast.error("Failed to delete from cart");
+            // Revert local update
+            fetchCartFromDatabase();
+        }
     }
 
-    function TotalCost() {
-
-        return cartProducts.reduce((total, product) => total + product.quantity * product.price, 0);
+    // Calculate total cost
+    function totalCost() {
+        return cartProducts.reduce((total, product) => total + product.quantity * product.product.price, 0);
     }
 
     const contextValue = {
         items: cartProducts,
         getProductQuantity,
         addOneToCart,
-        RemoveOnefromCart,
-        deletefromCart,
-        TotalCost
+        removeOneFromCart,
+        deleteFromCart,
+        totalCost,
     };
 
     return <CartContext.Provider value={contextValue}>{children}</CartContext.Provider>;
-}   
+}
 
 export default CartProvider;

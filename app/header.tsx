@@ -10,18 +10,37 @@ import { CartContext } from "./CartContext";
 import { useContext } from "react";
 
 export default function Header() {
-
     const cart = useContext(CartContext);
+    let productCount = 0;
 
-    const productCount = cart.items.reduce((accumulator, product) => accumulator + product.quantity, 0);
+    try{ 
+       
+        console.log('cart', cart)
+        if(cart.items.length === 0){
+            productCount = 0
+        }
+        else {
+            productCount = cart.items.reduce((total, item) => total + item.quantity, 0);
+        }
+
+
+
+
+    }
+    catch (error) {
+        console.log(error);
+    }
+
+ 
+    
 
     return (
         <nav className="header">
             <Link href="/">
                 <Image
-                    src="/logo.png"
-                    width={200}
-                    height={72}
+                    src="/logo3.png"
+                    width={133}
+                    height={48}
                     alt="TCGCardMasterLogo"
                 />
             </Link>
@@ -30,9 +49,6 @@ export default function Header() {
             </div>
            
             <ul className={styles.navLinks}>
-                <li>
-                    <Link href="/import">Import Cards</Link>
-                </li>
                 <li>
                     <Link href="/cart">Cart {productCount}</Link>
                 </li>
@@ -46,3 +62,5 @@ export default function Header() {
         </nav>
     );
 }
+
+

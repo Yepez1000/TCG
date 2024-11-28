@@ -67,7 +67,7 @@ export function Footer() {
           </div>
         </div>
         <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p>&copy; {new Date().getFullYear()} CardMaster. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} TGCCardMaster. All rights reserved.</p>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <div className="flex items-center">
               <CreditCard className="h-6 w-6 mr-2" />
