@@ -15,7 +15,7 @@ export default function Header() {
 
     try{ 
        
-        console.log('cart', cart)
+        
         if(cart.items.length === 0){
             productCount = 0
         }

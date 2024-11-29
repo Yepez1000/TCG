@@ -93,11 +93,19 @@ export async function DELETE(req: Request) {
 
         const cartId = cart.id;
 
-       
-
-        await prisma.cartItem.deleteMany({
-            where: { id: productId },
+        const existingItem = await prisma.cartItem.findUnique({
+            where: { cartId_productId: { cartId, productId } },
         });
+
+
+
+       
+        if(existingItem){
+            await prisma.cartItem.deleteMany({
+                where: { id: existingItem.id },
+            });
+        }
+     
 
         const updatedCart = await prisma.cartItem.findMany({ where: { cartId } });
         return NextResponse.json({ items: updatedCart });
@@ -110,17 +118,15 @@ export async function DELETE(req: Request) {
 export async function GET(req: Request) {
     try {
 
-        console.log("got to get cart");
 
         const session = await getServerSession(authOptions);
-
-        console.log("this is user session",session)
 
         if (!session?.user?.id) {
             return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
         }
 
         const userId = session.user.id;
+
 
         const cart = await prisma.cartItem.findMany({
             where: { cart: { userId } },

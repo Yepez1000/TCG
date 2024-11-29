@@ -42,6 +42,7 @@ export default function BlockPage() {
 
 
     interface Product {
+        id: string;
         name: string;
         description: string;
         image: File | null;
@@ -53,6 +54,7 @@ export default function BlockPage() {
     }
 
     const [product, setProduct] = useState<Product>({
+        id: '',
         name: '',
         description: '',
         image: null,
@@ -182,7 +184,7 @@ export default function BlockPage() {
 
 
             // Step 3: Add the priceId to the updatedProduct
-            const updatedProductWithPriceId = { ...updatedProduct, priceId: session.product?.default_price };
+            const updatedProductWithPriceId = { ...updatedProduct, priceId: session.product?.default_price, id: session.product?.id };
 
             console.log("this is the updated product with price", updatedProductWithPriceId)
 
@@ -192,7 +194,7 @@ export default function BlockPage() {
             const response2 = await fetch('/api/prismaadd', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: product.name, description: product.description, image: product.link, price: product.price, stock: product.stock, category: product.category, link: updatedProductWithPriceId.link, priceId: updatedProductWithPriceId.priceId }),
+                body: JSON.stringify({ id: updatedProductWithPriceId.id, name: product.name, description: product.description, image: product.link, price: product.price, stock: product.stock, category: product.category, link: updatedProductWithPriceId.link, priceId: updatedProductWithPriceId.priceId }),
             });
 
             if(!response2.ok) {
@@ -204,6 +206,7 @@ export default function BlockPage() {
 
             // Step 5: Reset form state
             setProduct({
+                id:  '',
                 name: '',
                 description: '',
                 image: null,
@@ -244,6 +247,8 @@ export default function BlockPage() {
                         <TabsTrigger value="support">Support</TabsTrigger>
                         <TabsTrigger value="profile">Profile</TabsTrigger>
                         {data?.isSuperUser && (<TabsTrigger value="product">Add Product</TabsTrigger>)}
+                        {data?.isSuperUser && (<TabsTrigger value="delete">Delete Product</TabsTrigger>)}
+                        {data?.isSuperUser && (<TabsTrigger value="fulfill">Fulfill Orders</TabsTrigger>)}
                     </TabsList>
 
                     <TabsContent value="orders">
@@ -398,6 +403,18 @@ export default function BlockPage() {
                             </CardContent>
                         </Card>
                     </TabsContent>
+                   
+                    )}
+
+                    {data?.isSuperUser && (
+                        <TabsContent value="delete">
+
+                        </TabsContent>
+                    )}
+                    {data?.isSuperUser && (
+                        <TabsContent value="fulfill">
+
+                        </TabsContent>
                     )}
                 </Tabs>
             </main>

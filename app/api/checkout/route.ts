@@ -6,11 +6,6 @@ export async function POST(request: Request) {
         
         const { lineItems, email, userId } = await request.json();
 
-        console.log("this is line items", lineItems)
-
-
-
-
         const session = await stripe.checkout.sessions.create({
             metadata: {
                 user_id: userId,
@@ -18,6 +13,8 @@ export async function POST(request: Request) {
             customer_email: email,
             payment_method_types: ['card'],
             line_items: lineItems,
+            shipping_options: [{ shipping_rate: 'shr_1QQHgnCORXixF1q5WuLontgd' }],
+            billing_address_collection: "required",
             mode: 'payment',
             success_url: `${request.headers.get('origin')}/success`,
             cancel_url: `${request.headers.get('origin')}/cart`,

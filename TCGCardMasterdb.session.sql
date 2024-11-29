@@ -1,4 +1,11 @@
+-- @block
+-- SELECT * FROM Cart;
+SELECT * FROM Product;
 
+
+-- @block
+DELETE FROM CartItem;
+DELETE FROM Product;
 -- @block
 
 SELECT 

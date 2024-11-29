@@ -4,6 +4,7 @@ import { createContext, useState, useEffect, ReactNode } from "react";
 import { toast } from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import { prisma } from "@/lib/prisma";
+import { Products } from "@/components/products";
 
 
 
@@ -56,24 +57,39 @@ export function CartProvider({ children }: Props) {
 
     // Fetch cart items from the database
     async function fetchCartFromDatabase() {
+        console.log("***************fetching cart***************")
         try {
             const response = await fetch("/api/cart"); // Replace with your API route
             const cart = await response.json();
-            console.log(cart.items.product);
-            setCartProducts(cart.items);
+            console.log("fromapi",cart.items);
+
+
+            setCartProducts(cart.items.map((item: any) => ({
+                id: item.productId,
+                product: item.product,
+                quantity: item.quantity,
+            })));
+
+            
+            console.log("cartproducts",cartProducts)
+
+
         } catch (error) {
             console.error("Failed to fetch cart:", error);
         }
     }
+    useEffect(() => {
+        console.log("Updated cartProducts:", cartProducts);
+    }, [cartProducts]);
 
     // Get quantity of a product in the cart
     function getProductQuantity(id: string) {
-
-        console.log("got to get quantity")
-        
+        console.log("gettingquantity")
+        console.log("cartproducts",cartProducts)
         const quantity = cartProducts?.find((product) => product.id === id)?.quantity || 0;
 
-        console.log("got quantity",quantity)
+        console.log("quantity",quantity)
+
         return quantity;
     }
 
