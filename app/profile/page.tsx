@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/profile/tabs"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/profile/card"
 import { Button } from "@/components/profile/button"
@@ -10,8 +10,9 @@ import { Label } from "@/components/profile/label"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/profile/table"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/profile/avatar"
 import { useSession } from 'next-auth/react'
-import { Upload, DollarSign, Package, Tag } from 'lucide-react'
-import useSWR from 'swr'
+import { Upload, DollarSign, Package, Tag, Trash2 } from 'lucide-react'
+import { OrderFulfillmentComponent } from '@/components/order-fulfillment'
+import useSWR, { mutate } from 'swr';
 
 const fetcher = async (url: string, email: string) => {
     const response = await fetch(url, {
@@ -24,6 +25,25 @@ const fetcher = async (url: string, email: string) => {
     if (!response.ok) { throw new Error("Failed to fetch data") }
     return response.json()
 }
+
+const getOrders = async (url: string) => {
+    const res = await fetch(url);
+    if (!res.ok) {
+        throw new Error("Failed to fetch data");
+    }
+
+    return res.json();
+}
+
+const getProducts = async (url: string) => {
+    const res = await fetch(url);
+    if (!res.ok){
+        throw new Error("Failed to fetch data");
+    }
+    return res.json();
+}
+    
+
 
 export default function BlockPage() {
     const [user, setUser] = useState({
@@ -38,6 +58,7 @@ export default function BlockPage() {
         { id: 3, date: "2023-07-20", total: 79.99, status: "Processing" },
     ])
 
+   
     const { data: session } = useSession()
 
 
@@ -73,7 +94,25 @@ export default function BlockPage() {
         email ? ["/api/verify-user", email] : null,
         ([url, email]) => fetcher(url, email)
     )
-    if(isLoading)
+
+    const { data: user_orders } = useSWR(
+        '/api/order', getOrders
+    )
+
+    const { data: all_products } = useSWR(
+        '/api/products', 
+        getProducts,
+        {
+            revalidateOnMount: true, // Forces revalidation every runtime
+        }
+    )
+ 
+
+    // const { data: order_to_fulfill } = useSWR(
+    //     '/api/orders', getOrders
+        
+    // )
+    if(!data || !user_orders || !all_products)
         {return <p>Loading...</p>}
 
     if (!session) {
@@ -191,7 +230,7 @@ export default function BlockPage() {
             // Optionally: Update state with the fully updated product
             console.log("this is the updated product", updatedProductWithPriceId)
 
-            const response2 = await fetch('/api/prismaadd', {
+            const response2 = await fetch('/api/prisma', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id: updatedProductWithPriceId.id, name: product.name, description: product.description, image: product.link, price: product.price, stock: product.stock, category: product.category, link: updatedProductWithPriceId.link, priceId: updatedProductWithPriceId.priceId }),
@@ -217,10 +256,26 @@ export default function BlockPage() {
                 priceId: '',
             });
             setPreviewImage('');
+            mutate('/api/products');
         } catch (error) {
             console.error("Error during submission:", error);
         }
     };
+
+    const handleDeleteProduct = async (id: string) => {
+
+        const response = await fetch('/api/prisma', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id }),
+        });
+
+
+        if (!response.ok) {
+            throw new Error();
+        }   
+        mutate('/api/products');
+    }
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -268,11 +323,11 @@ export default function BlockPage() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {orders.map((order) => (
+                                        {user_orders.map((order : any) => (
                                             <TableRow key={order.id}>
                                                 <TableCell>{order.id}</TableCell>
-                                                <TableCell>{order.date}</TableCell>
-                                                <TableCell>${order.total.toFixed(2)}</TableCell>
+                                                <TableCell>{order.createdAt}</TableCell>
+                                                <TableCell>${(order.totalAmount / 100).toFixed(2)}</TableCell>
                                                 <TableCell>{order.status}</TableCell>
                                             </TableRow>
                                         ))}
@@ -406,16 +461,51 @@ export default function BlockPage() {
                    
                     )}
 
+
                     {data?.isSuperUser && (
                         <TabsContent value="delete">
-
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Delete Products</CardTitle>
+                                    <CardDescription>Remove products from the inventory</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Product Name</TableHead>
+                                                <TableHead>Price</TableHead>
+                                                <TableHead>Stock</TableHead>
+                                                <TableHead>Category</TableHead>
+                                                <TableHead>Action</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {all_products.map((product : any) => (
+                                                <TableRow key={product.id}>
+                                                    <TableCell>{product.name}</TableCell>
+                                                    <TableCell>${product.price.toFixed(2)}</TableCell>
+                                                    <TableCell>{product.stock}</TableCell>
+                                                    <TableCell>{product.category}</TableCell>
+                                                    <TableCell>
+                                                        <Button variant="destructive" size="sm" onClick={() => handleDeleteProduct(product.id)}>
+                                                            <Trash2 className="h-4 w-4 mr-2" /> Delete
+                                                        </Button>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </CardContent>
+                            </Card>
                         </TabsContent>
                     )}
+
                     {data?.isSuperUser && (
                         <TabsContent value="fulfill">
-
+                          <OrderFulfillmentComponent />
                         </TabsContent>
-                    )}
+                    )} 
                 </Tabs>
             </main>
         </div>

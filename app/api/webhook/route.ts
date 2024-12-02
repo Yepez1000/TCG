@@ -2,40 +2,19 @@ import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/components/stripe/stripe';
 import Stripe from 'stripe';
 import { prisma } from '@/lib/prisma';
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+import nodemailer from "nodemailer";
 
 
-async function fulfillCheckout(sessionId: string) {
-    // Set your secret key. Remember to switch to your live secret key in production.
-    // See your keys here: https://dashboard.stripe.com/apikeys
 
-    console.log('Fulfilling Checkout Session ' + sessionId);
+async function sendEmail(userEmail: string, to: string, subject: string, message: string) {
+    try {
+        console.log('Sending email to:', userEmail);    
 
-    // TODO: Make this function safe to run multiple times,
-    // even concurrently, with the same session ID
 
-    // TODO: Make sure fulfillment hasn't already been
-    // peformed for this Checkout Session
-
-    // Retrieve the Checkout Session from the API with line_items expanded
-    const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, {
-        expand: ['line_items'],
-    });
-
-    console.log('Fulfilling Checkout Session ' + sessionId);
-    console.log("this is the checkout session",checkoutSession)
-
-    // Check the Checkout Session's payment_status property
-    // to determine if fulfillment should be peformed
-    if (checkoutSession.payment_status !== 'unpaid') {
-        // TODO: Perform fulfillment of the line items
-
-        // TODO: Record/save fulfillment status for this
-        // Checkout Session
+    } catch (error) {
+        console.error('Error sending email:', error);
     }
 }
-
 
 export async function POST(request: NextRequest){
     try{
@@ -65,6 +44,9 @@ export async function POST(request: NextRequest){
         console.log('Checkout session completed:', session);
 
         const userEmail = session.customer_email;
+
+
+
         if (!userEmail) {
             return NextResponse.json({ message: 'Missing customer email' }, { status: 400 });
         }

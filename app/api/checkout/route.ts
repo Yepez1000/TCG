@@ -16,7 +16,7 @@ export async function POST(request: Request) {
             shipping_options: [{ shipping_rate: 'shr_1QQHgnCORXixF1q5WuLontgd' }],
             billing_address_collection: "required",
             mode: 'payment',
-            success_url: `${request.headers.get('origin')}/success`,
+            success_url: `${request.headers.get('origin')}/profile`,
             cancel_url: `${request.headers.get('origin')}/cart`,
         });
         

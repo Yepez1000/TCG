@@ -34,3 +34,25 @@ export async function POST(req: Request) {
     }
 
 }
+
+export async function DELETE(req: Request) {
+    try {
+        const { id } = await req.json();
+
+        console.log('this is id', id);
+        const cartproduct = await prisma.cartItem.deleteMany({
+            where: {
+                productId: id
+            }
+        })
+        const product = await prisma.product.deleteMany({
+            where: {
+                id: id,
+            },
+        });
+        return NextResponse.json(product);
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    }
+}
