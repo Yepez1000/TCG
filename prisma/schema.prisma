@@ -63,6 +63,7 @@ model Product {
   description String
   imageUrl    String
   price       Float
+  isArchived  Boolean  @default(false)
   stock       Int
   createdAt   DateTime   @default(now())
   orderItems  OrderItem[]

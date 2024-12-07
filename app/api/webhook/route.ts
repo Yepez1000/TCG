@@ -6,9 +6,28 @@ import nodemailer from "nodemailer";
 
 
 
-async function sendEmail(userEmail: string, to: string, subject: string, message: string) {
+async function sendEmail( to: string, subject: string, message: string, html: string) {
     try {
-        console.log('Sending email to:', userEmail);    
+        console.log('Sending email to:', to);    
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASSWORD,
+            },
+
+        })
+
+        const info = await transporter.sendMail({
+            from: process.env.EMAIL_USER, // Sender address
+            to, // List of recipients
+            subject, // Subject line
+            text : message, // Plain text body
+            html, // HTML body
+        });
+
+        console.log('Message sent: %s', info.messageId);
 
 
     } catch (error) {
@@ -40,16 +59,17 @@ export async function POST(request: NextRequest){
             return NextResponse.json({ message: 'Invalid event type' }, { status: 400 });
         }
 
+        
         const session: Stripe.Checkout.Session = event.data.object;
         console.log('Checkout session completed:', session);
 
         const userEmail = session.customer_email;
 
-
-
         if (!userEmail) {
             return NextResponse.json({ message: 'Missing customer email' }, { status: 400 });
         }
+
+        
 
         // Fetch the user
         const user = await prisma.user.findUnique({ where: { email: userEmail } });
@@ -109,6 +129,7 @@ export async function POST(request: NextRequest){
                     },
                 });
 
+
                 console.log("Deleted cart items for product:", productId);
 
                 // Update stock or delete product if stock reaches 0
@@ -118,10 +139,23 @@ export async function POST(request: NextRequest){
                     return;
                 }
 
+               // Create order items
+                await prisma.orderItem.createMany({
+
+                    data:{
+                        orderId: order.id,
+                        productId: product.id,
+                        quantity: quantity,
+                        
+                    },
+                });
+
+
+
                 const newStock = product.stock - quantity;
                 if (newStock <= 0) {
                     // Delete product if stock is depleted
-                    await prisma.product.delete({ where: { id: productId } });
+                    await prisma.product.update({ where: { id: productId }, data: { stock: 0, isArchived : true} });
                     console.log("Product deleted as stock is depleted:", productId);
                 } else {
                     // Update stock
@@ -133,6 +167,14 @@ export async function POST(request: NextRequest){
                 }
             })
         );
+
+        // Send email
+
+        const html = 
+        await sendEmail(userEmail, 'Order Confirmation')
+        
+
+
 
         return NextResponse.json({ message: 'Order processed successfully' });
     } catch (error: any) {
