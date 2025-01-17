@@ -1,37 +1,20 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# **Card Selling Website (Demo)**
 
-## Getting Started
+This is a **demo version** of a card-selling platform that enables users to buy, sell, and manage their trading cards. The app is built with modern web technologies to ensure a seamless and efficient user experience.
 
-First, run the development server:
+## **Features**
+- **Sell Your Cards**: Users can list their trading cards for sale.  
+- **Secure Payments**: Integrated with **Stripe** for safe and reliable payment processing.  
+- **Responsive Design**: Built with **Next.js** and styled using **CSS** for a smooth and responsive UI.  
+- **Database Management**: Utilizes **MySQL** with **Prisma ORM** for robust and efficient data handling.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## **Technologies Used**
+- **Next.js**: For server-side rendering and frontend development.  
+- **CSS**: For styling and responsive design.  
+- **Stripe**: For secure payment integration.  
+- **MySQL**: For database management.  
+- **Prisma**: For database interaction and ORM.  
+- **Node.js**: For backend logic and API development.  
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-# TCGCardMaster
+## **Disclaimer**
+This is a **demo version** of the platform and is not connected to a live database or payment gateway. It is intended for demonstration and educational purposes only.
