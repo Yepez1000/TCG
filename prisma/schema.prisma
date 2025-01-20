@@ -32,6 +32,7 @@ model Order {
   status      String
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+  sessionId   String
   user        User        @relation(fields: [userId], references: [id])
   orderItems  OrderItem[]
   payments    Payment[]

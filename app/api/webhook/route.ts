@@ -101,6 +101,7 @@ export async function POST(request: NextRequest){
                 userId,
                 status: "pending",
                 totalAmount: session.amount_total,
+                sessionId: session.id,
             },
         });
         console.log("Order created:", order);
@@ -170,8 +171,12 @@ export async function POST(request: NextRequest){
 
         // Send email
 
-        const html = 
-        await sendEmail(userEmail, 'Order Confirmation')
+        const html = `
+            <div>
+                <h1>Thank you for your order </h1>
+            </div>
+        `
+        await sendEmail(userEmail, 'Order Confirmation', 'thank you for your order', html)
         
 
 
