@@ -141,14 +141,14 @@ export async function POST(request: NextRequest){
                 }
 
                // Create order items
-                await prisma.orderItem.createMany({
+                await prisma.orderItem.create({
 
-                    data:{
-                        orderId: order.id,
-                        productId: product.id,
-                        quantity: quantity,
-                        
-                    },
+                   data: {
+                    orderId: order.id,
+                    productId: product.id,
+                    quantity: quantity,
+
+                   }
                 });
 
 

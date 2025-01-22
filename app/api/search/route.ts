@@ -36,6 +36,7 @@ export async function GET(req: NextRequest) {
                 query ? { name: { contains: query } } : {},
                 query ? { id: query } : {},  // Exact match for ID
             ],
+            isArchived: false,
         },
         orderBy,
     });

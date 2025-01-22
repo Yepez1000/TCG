@@ -7,6 +7,9 @@ export async function GET(request: NextRequest) {
         take: 3,
         orderBy: {
             createdAt: 'desc',
+        },
+        where:{
+            isArchived: false,
         }
     })
 

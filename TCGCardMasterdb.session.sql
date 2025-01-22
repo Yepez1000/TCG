@@ -28,3 +28,24 @@ JOIN
 
 -- SELECT * FROM Cart;
 -- SELECT * FROM User;
+
+INSERT INTO Banner (
+    id, 
+    imageUrl, 
+    title, 
+    link, 
+    productId, 
+    createdAt, 
+    updatedAt
+)
+VALUES (
+    UUID(), -- Automatically generates a UUID for the ID
+    '/Pokemon_banner.webp', -- Corrected path for next/image
+    'Pokemon Banner', -- Title of the banner
+    'https://example.com/pokemon', -- Link associated with the banner
+    NULL, -- Assuming no productId is linked for now
+    NOW(), -- Current timestamp for createdAt
+    NOW() -- Current timestamp for updatedAt
+);
+
+DELETE FROM Banner WHERE title = 'Pokemon Banner';

@@ -71,6 +71,7 @@ a {
 
 .main {
   margin-top: 90px;
+
   /* Matches combined height of header + nav menu */
   padding: 20px;
 }
@@ -99,6 +100,12 @@ nav a {
   padding: 0 1rem;
   /* Add padding for spacing */
 }
+
+/* #footer {
+  position:sticky;
+  bottom: 0;
+  width: 100%;
+} */
 
 
 @layer base {
@@ -165,5 +172,7 @@ nav a {
     @apply bg-background text-foreground;
   }
 }
+
+
 
 

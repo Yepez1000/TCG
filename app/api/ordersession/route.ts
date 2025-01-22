@@ -13,9 +13,16 @@ export async function GET(req:Request){
     const order = await prisma.order.findMany({
         where: {
             sessionId: query,
-        }
+        },
+        include: {
+            orderItems: {
+              include: {
+                product: true, // Include product details in order items
+              },
+            },
+          },
     })
     console.log('API order sessionid', order)
-
+    
     return NextResponse.json(order);
 }
