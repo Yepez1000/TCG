@@ -1,7 +1,7 @@
 'use client'
-import { prisma } from "@/lib/prisma"
+
 import { FeaturedProductCard } from "@/components/featured-product-card";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import { useState } from "react";
 import  SortFilter from "@/components/filter";
