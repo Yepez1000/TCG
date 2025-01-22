@@ -5,6 +5,7 @@ import useSWR from "swr";
 import { useState } from "react";
 import  SortFilter from "@/components/filterbar/filter";
 import { FeaturedCard } from '@/components/productcard/featured-card'
+import { FiltersBar } from "@/components/filterbar/filters-bar"
 
 // const fetchPokemon = async () => {
 //     const products = await prisma.product.findMany({
@@ -59,8 +60,8 @@ export default function SearchQuery({ params : {query} }: {params: {query:string
     return (
         <div >
 
-            <div className="filter">
-                <SortFilter sortOption={sortOption} onSortChange={handleSortChange} />
+            <div className="p-6">
+                <FiltersBar/>
             </div>
 
             <div className="p-6">

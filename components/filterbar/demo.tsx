@@ -1,4 +1,4 @@
-import { FiltersBar } from "./filters-bar"
+import { FiltersBar } from "@/components/filterbar/filters-bar"
 
 export default function FiltersDemo() {
   return (

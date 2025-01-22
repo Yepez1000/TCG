@@ -64,7 +64,7 @@ export function FiltersBar() {
             </CollapsibleContent>
           </Collapsible>
 
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <span className="text-sm font-medium">2</span>
           </div>
 
@@ -76,7 +76,7 @@ export function FiltersBar() {
           <div className="flex items-center">
             <span className="mx-2 text-muted-foreground">/</span>
             <span className="font-medium">SV07: Stellar Crown</span>
-          </div>
+          </div> */}
         </div>
 
         <Button variant="ghost" className="h-8 px-2 text-sm text-muted-foreground" onClick={clearFilters}>
@@ -86,7 +86,7 @@ export function FiltersBar() {
 
       {/* Results and sort row */}
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="text-sm text-muted-foreground">216 results in Pokemon</div>
+        <div className="text-sm text-muted-foreground">**Add Number** results in Pokemon</div>
 
         <div className="flex items-center gap-4">
           <span className="text-sm font-medium">Sort & View</span>
