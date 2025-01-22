@@ -25,14 +25,14 @@ export default function Header() {
     }
     return (
         <nav className="header">
-            {/* <Link href="/">
+            <Link href="/">
                 <Image
                     src="/logo3.png"
-                    width={133}
-                    height={48}
+                    height={50}
+                    width={50}
                     alt="TCGCardMasterLogo"
                 />
-            </Link> */}
+            </Link>
             <div className ={styles.searchForm}> 
                 <Search />
             </div>

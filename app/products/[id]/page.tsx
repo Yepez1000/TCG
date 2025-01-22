@@ -7,7 +7,7 @@ import { Input } from "@/components/profile/input"
 import { ShoppingCart, Heart } from "lucide-react"
 import Link from 'next/link'
 import useSWR from "swr";
-import {CheckoutButton} from '@/components/checkout';
+import {CheckoutButton} from '@/components/checkout/checkout';
 import { useContext } from 'react';
 import { CartContext } from '@/components/context/CartContext';
 

@@ -3,9 +3,8 @@ import Image from 'next/image';
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import useSWR from "swr";
-import SortFilter  from "../components/filter";
+import SortFilter  from "../components/filterbar/filter";
 import { useCallback, useState } from 'react';
-import { FeaturedProductCard } from '@/components/featured-product-card';
 import { FeaturedCard } from "@/components/productcard/featured-card"
 
 

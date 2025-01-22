@@ -8,7 +8,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Trash2, Plus, Minus } from "lucide-react"
 import { CartContext } from '@/components/context/CartContext'
 import { useContext } from 'react'
-import { CartCheckoutButton } from '@/components/cartcheckout'
+import { CartCheckoutButton } from '@/components/checkout/cartcheckout'
 import { useSession } from 'next-auth/react'
 import useSWR from 'swr'
 

@@ -1,10 +1,9 @@
 'use client'
 
-import { FeaturedProductCard } from "@/components/featured-product-card";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import { useState } from "react";
-import  SortFilter from "@/components/filter";
+import  SortFilter from "@/components/filterbar/filter";
 import { FeaturedCard } from '@/components/productcard/featured-card'
 
 // const fetchPokemon = async () => {

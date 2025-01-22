@@ -11,7 +11,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/profile/avatar"
 import { useSession } from 'next-auth/react'
 import { Upload, DollarSign, Package, Tag, Trash2 } from 'lucide-react'
-import { OrderFulfillmentComponent } from '@/components/order-fulfillment'
+import { OrderFulfillmentComponent } from '@/components/profile/order-fulfillment'
 import useSWR, { mutate } from 'swr';
 
 const fetcher = async (url: string, email: string) => {
@@ -108,10 +108,6 @@ export default function BlockPage() {
     )
  
 
-    // const { data: order_to_fulfill } = useSWR(
-    //     '/api/orders', getOrders
-        
-    // )
     if(!data || !user_orders || !all_products)
         {return <p>Loading...</p>}
 

@@ -6,18 +6,9 @@ import { Button } from "@/components/profile/button"
 import { useSession } from 'next-auth/react';
 
 
-
-
-
-
 export function CartCheckoutButton(products: any) {
 
     const { data: status } = useSession();
-
-
-   
-
-
 
     const handleCheckout = async () => {
 
@@ -31,10 +22,6 @@ export function CartCheckoutButton(products: any) {
 
 
 
-        // console.log('Products:', products);
-        // console.log('Type of products:', typeof products);
-
-
         let lineItems: Array<{ price: string; quantity: number }> = [];
 
         const productArray = products.products
@@ -45,7 +32,6 @@ export function CartCheckoutButton(products: any) {
             return;
         }
 
-        console.log("productArray",productArray)
 
         productArray.forEach((product: any) => {
 
@@ -54,15 +40,6 @@ export function CartCheckoutButton(products: any) {
                 quantity: product.quantity
             })
         })
-
-
-        console.log("lineItems",lineItems)
-
-
-
-   
-
-        
 
         const response = await fetch('/api/checkout/session', {
             method: 'POST',
