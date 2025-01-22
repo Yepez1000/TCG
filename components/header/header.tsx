@@ -3,10 +3,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./header.module.css";
-import { SignInButton, SignOutButton } from "../components/main/buttons";
-import { Search } from "../components/search/search";
-import "./globals.css";
-import { CartContext } from "./CartContext";
+import { SignInButton, SignOutButton } from "@/components/main/buttons";
+import { Search } from "@/components/search/search";
+import { CartContext } from "@/components/context/CartContext";
 import { useContext } from "react";
 
 export default function Header() {

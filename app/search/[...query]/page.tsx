@@ -38,7 +38,7 @@ export default function SearchQuery({ params : {query} }: {params: {query:string
 
 
     const { data, error, isLoading } = useSWR(
-        `/api/search?category=${category}&query=${encodedSearchQuery}&sort=${sortOption}`,
+        `/api/products/search?category=${category}&query=${encodedSearchQuery}&sort=${sortOption}`,
         fetcher,
         { revalidateOnFocus: false }
     );

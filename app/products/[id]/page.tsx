@@ -9,7 +9,7 @@ import Link from 'next/link'
 import useSWR from "swr";
 import {CheckoutButton} from '@/components/checkout';
 import { useContext } from 'react';
-import { CartContext } from '../../CartContext';
+import { CartContext } from '@/components/context/CartContext';
 
 interface Props {
     params: {
@@ -35,8 +35,8 @@ export default function CardDetailPage({ params: { id } }: Props) {
 
     const searchQuery = id;
     const encodedSearchQuery = encodeURIComponent(searchQuery || "");
-    const { data: product, error, isLoading } = useSWR(`/api/search?q=${encodedSearchQuery}`, fetchCards, { revalidateOnFocus: false });
-    const { data: recommended } = useSWR(`/api/recommended`, fetchRecommendedCards, { revalidateOnFocus: false }); 
+    const { data: product, error, isLoading } = useSWR(`/api/products/search?q=${encodedSearchQuery}`, fetchCards, { revalidateOnFocus: false });
+    const { data: recommended } = useSWR(`/api/products/recommended`, fetchRecommendedCards, { revalidateOnFocus: false }); 
     const cart = useContext(CartContext);
 
     if (!product || !recommended) {

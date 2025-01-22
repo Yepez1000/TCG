@@ -6,7 +6,7 @@ import { Input } from "@/components/shopping/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/shopping/table"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/shopping/card"
 import { Trash2, Plus, Minus } from "lucide-react"
-import { CartContext } from '../CartContext'
+import { CartContext } from '@/components/context/CartContext'
 import { useContext } from 'react'
 import { CartCheckoutButton } from '@/components/cartcheckout'
 import { useSession } from 'next-auth/react'

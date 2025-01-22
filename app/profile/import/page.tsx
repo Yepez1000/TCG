@@ -58,7 +58,7 @@ export default function Page() {
     const email = status?.user?.email
 
     const {data, error, isLoading} = useSWR(
-        email ? ["/api/verify-user", email] : null,
+        email ? ["/api/auth/verify", email] : null,
         ([url, email]) => fetcher(url, email)
     )
 
@@ -146,7 +146,7 @@ export default function Page() {
             const updatedProduct = { ...product, link, price: parseFloat(product.price)*100 }; // Updated with link
 
             // Step 2: Make the API call with updated product
-            const response = await fetch('/api/createStripe', {
+            const response = await fetch('/api/products/createStripe', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ card: updatedProduct }),
@@ -163,17 +163,6 @@ export default function Page() {
 
             console.log("this is the updated product with price", updatedProductWithPriceId)
 
-            // Optionally: Update state with the fully updated product
-            console.log("this is the updated product", updatedProductWithPriceId)
-
-            const response2 = await fetch('/api/prismaadd', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: product.name, description: product.description, image: product.link, price: product.price, stock: product.stock, category: product.category, link: updatedProductWithPriceId.link, priceId: updatedProductWithPriceId.priceId }),
-            });
-
-            const session2 = await response2.json();
-            console.log(session2)
 
             // Step 5: Reset form state
             setProduct({

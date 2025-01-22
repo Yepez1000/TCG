@@ -64,7 +64,7 @@ export function CartCheckoutButton(products: any) {
 
         
 
-        const response = await fetch('/api/checkout', {
+        const response = await fetch('/api/checkout/session', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

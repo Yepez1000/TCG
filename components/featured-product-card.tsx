@@ -5,7 +5,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/featured/button"
 import { ShoppingCart } from "lucide-react"
 import Link from 'next/link'
-import { CartContext } from '@/app/CartContext'
+import { CartContext } from '@/components/context/CartContext'
 import { useContext } from 'react'
 import { CheckoutButton } from './checkout';
 

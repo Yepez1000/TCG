@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Header from "./header";
-import NavMenu from "./NavMenu";
+import Header from "@/components/header/header";
+import NavMenu from "@/components/navmenu/NavMenu";
 import "./globals.css";
-import AuthProvider from './AuthProvider'
+import AuthProvider from '@/components/context/AuthProvider'
 import { Toaster } from "react-hot-toast"
-import CartContext from "./CartContext";
+import CartContext from "@/components/context/CartContext";
 import { Car } from "lucide-react";
 import { Footer } from "@/components/footer";
 

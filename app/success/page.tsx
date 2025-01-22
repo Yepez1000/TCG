@@ -17,7 +17,7 @@ const getOrderSession = async (url: string) => {
 export default function OrderSuccessPage() {
     const serachParams = useSearchParams();
     const serach = serachParams.get('session_id')
-    const {data: order, error, isLoading} = useSWR(`api/ordersession?s=${serach}`, getOrderSession)
+    const {data: order, error, isLoading} = useSWR(`api/order/session?s=${serach}`, getOrderSession)
 
     if (isLoading){
         return (

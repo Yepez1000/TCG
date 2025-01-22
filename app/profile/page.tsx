@@ -91,7 +91,7 @@ export default function BlockPage() {
     const email = status?.user?.email
 
     const { data, error, isLoading } = useSWR(
-        email ? ["/api/verify-user", email] : null,
+        email ? ["/api/auth/verify", email] : null,
         ([url, email]) => fetcher(url, email)
     )
 
@@ -210,7 +210,7 @@ export default function BlockPage() {
             const updatedProduct = { ...product, link, price: parseFloat(product.price) * 100 }; // Updated with link
 
             // Step 2: Make the API call with updated product
-            const response = await fetch('/api/createStripe', {
+            const response = await fetch('/api/products/createStripe', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ card: updatedProduct }),
@@ -230,7 +230,7 @@ export default function BlockPage() {
             // Optionally: Update state with the fully updated product
             console.log("this is the updated product", updatedProductWithPriceId)
 
-            const response2 = await fetch('/api/prisma', {
+            const response2 = await fetch('/api/products/createPrisma', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id: updatedProductWithPriceId.id, name: product.name, description: product.description, image: product.link, price: product.price, stock: product.stock, category: product.category, link: updatedProductWithPriceId.link, priceId: updatedProductWithPriceId.priceId }),
@@ -264,7 +264,7 @@ export default function BlockPage() {
 
     const handleDeleteProduct = async (id: string) => {
 
-        const response = await fetch('/api/prisma', {
+        const response = await fetch('/api/products/createPrisma', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id }),

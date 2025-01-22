@@ -7,8 +7,6 @@ export async function POST(request: Request) {
     try {
         const { card } = await request.json();
 
-        console.log(card)
-
         const images = Array.isArray(card.link)
             ? card.link // If already an array, use it
             : card.link
@@ -31,8 +29,6 @@ export async function POST(request: Request) {
             
 
         });
-
-        console.log("this is stripe product",product)
 
         return NextResponse.json({ product });
     } catch (error: any) {
