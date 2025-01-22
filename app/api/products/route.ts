@@ -16,10 +16,8 @@ export async function GET(request: NextRequest) {
         orderBy = { price: 'asc' };
     } else if (sortOption === 'price-desc') {
         orderBy = { price: 'desc' };
-    } else if (sortOption === 'name-asc') {
+    } else if (sortOption === 'a-z') {
         orderBy = { name: 'asc' };
-    } else if (sortOption === 'name-desc') {
-        orderBy = { name: 'desc' };
     } else {
         orderBy = { createdAt: 'desc' }; // Default to sorting by newest
     }

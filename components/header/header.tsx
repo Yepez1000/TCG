@@ -13,36 +13,26 @@ export default function Header() {
     let productCount = 0;
 
     try{ 
-       
-        
         if(cart.items.length === 0){
             productCount = 0
         }
         else {
             productCount = cart.items.reduce((total, item) => total + item.quantity, 0);
         }
-
-
-
-
     }
     catch (error) {
         console.log(error);
     }
-
- 
-    
-
     return (
         <nav className="header">
-            <Link href="/">
+            {/* <Link href="/">
                 <Image
                     src="/logo3.png"
                     width={133}
                     height={48}
                     alt="TCGCardMasterLogo"
                 />
-            </Link>
+            </Link> */}
             <div className ={styles.searchForm}> 
                 <Search />
             </div>

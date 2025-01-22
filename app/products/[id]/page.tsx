@@ -35,7 +35,7 @@ export default function CardDetailPage({ params: { id } }: Props) {
 
     const searchQuery = id;
     const encodedSearchQuery = encodeURIComponent(searchQuery || "");
-    const { data: product, error, isLoading } = useSWR(`/api/products/search?q=${encodedSearchQuery}`, fetchCards, { revalidateOnFocus: false });
+    const { data: product, error, isLoading } = useSWR(`/api/products/single?q=${encodedSearchQuery}`, fetchCards, { revalidateOnFocus: false });
     const { data: recommended } = useSWR(`/api/products/recommended`, fetchRecommendedCards, { revalidateOnFocus: false }); 
     const cart = useContext(CartContext);
 

@@ -16,7 +16,7 @@ const SortFilter: FC<SortFilterProps> = ({ sortOption, onSortChange }) => {
                 className="filter-select"
             >
                 <option value="best-match">Best Match</option>
-                <option value="price-asc">Price: Low to High</option>
+                <option value={JSON.stringify({ field: "price", order: "asc" })}>Price: Low to High</option>
                 <option value="price-desc">Price: High to Low</option>
                 <option value="a-z">A-Z</option>
             </select>

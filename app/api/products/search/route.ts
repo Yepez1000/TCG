@@ -5,7 +5,7 @@ import { Prisma } from '@prisma/client';
 export async function GET(req: NextRequest) {
     // Parse the query parameter from the request URL
     const { searchParams } = new URL(req.url);
-    const category = searchParams.get('category');
+    const category = searchParams.get('category') || null;
     const query = searchParams.get('query');
     const sortOption = searchParams.get('sort') || '';
 
@@ -14,18 +14,14 @@ export async function GET(req: NextRequest) {
         isArchived: false,
       };
       
-      if (query) {
-        console.log('query is not null')
-        where.OR = [
-          { name: { contains: query } },
-          { id: query },
-        ];
-      }
-      
-      if (category !== "all") {
-        where.category = category;
-      }
+    if (query) {
+      where.name = query
+    }
     
+    if (category !== "all") {
+      where.category = category;
+    }
+  
 
     let orderBy: Prisma.ProductOrderByWithRelationInput;
 

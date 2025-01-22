@@ -7,7 +7,7 @@ import AuthProvider from '@/components/context/AuthProvider'
 import { Toaster } from "react-hot-toast"
 import CartContext from "@/components/context/CartContext";
 import { Car } from "lucide-react";
-import { Footer } from "@/components/footer";
+import { Footer } from "@/components/footer/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 

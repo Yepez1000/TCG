@@ -2,11 +2,11 @@
 'use client';
 
 import Image from 'next/image'
-import styles from './search.module.css'
 import React, { useState } from 'react';
 import { redirect} from 'next/navigation'
 import { useRouter } from 'next/navigation';
-
+import { Input } from './input'
+import MagnifyingGlass from './magnifying-glass';
 
 export function Search(){
 
@@ -28,25 +28,30 @@ export function Search(){
     }
 
     return (
-        <form className={styles.searchForm} onSubmit={onSearch}>
-            <input
-                value={searchTerm}
-                onChange={(event)=> setSearchTerm(event.target.value)}
-                type="text"
-                id="search"
-                placeholder="Search for your cards"
-                className={styles.searchInput}
-            />
-            <button type="submit" className={styles.searchButton}>
-                <Image
-                    src="/search.jpeg"
-                    width={30}
-                    height={30}
-                    alt="Search"
+        <div className="container mx-auto px-4">
+            <form className="flex w-full max-w-sm items-center space-x-2" onSubmit={onSearch}>
+                <Input
+                    value={searchTerm}
+                    onChange={(event)=> setSearchTerm(event.target.value)}
+                    type="text"
+                    id="search"
+                    placeholder="Search cards ..."
+                    className="bg-white text-black border-black"
                 />
-            </button>
-        </form>
+                <button type="submit">
+                     <MagnifyingGlass color="white"/>
+                </button>
+            </form>
+        </div>
 
     )
    
 }
+
+
+{/* <div className="flex w-full max-w-sm items-center space-x-2">
+<Input type="search" placeholder="Search cards..." className="bg-white text-black border-black" />
+<Button type="submit" className="bg-black text-white hover:bg-black/90">
+  Search
+</Button>
+</div> */}

@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import { useState } from "react";
 import  SortFilter from "@/components/filter";
+import { FeaturedCard } from '@/components/productcard/featured-card'
 
 // const fetchPokemon = async () => {
 //     const products = await prisma.product.findMany({
@@ -37,7 +38,7 @@ export default function SearchQuery({ params : {query} }: {params: {query:string
 
 
 
-    const { data, error, isLoading } = useSWR(
+    const { data : products, error, isLoading } = useSWR(
         `/api/products/search?category=${category}&query=${encodedSearchQuery}&sort=${sortOption}`,
         fetcher,
         { revalidateOnFocus: false }
@@ -63,10 +64,12 @@ export default function SearchQuery({ params : {query} }: {params: {query:string
                 <SortFilter sortOption={sortOption} onSortChange={handleSortChange} />
             </div>
 
-            <div className="products">  
-                {data.map((products: any) => (
-                    <FeaturedProductCard key={products.id} product={products} />
-                ))}
+            <div className="p-6">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                    {products.map((product: any) => (
+                    <FeaturedCard key={product.id} product={product} />
+                    ))}
+                </div>
             </div>
 
       

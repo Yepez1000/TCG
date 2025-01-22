@@ -18,7 +18,6 @@ export function FeaturedProductCard({ product }: any) {
 
 
   return (
-   
     <Card className="w-full max-w-sm mx-auto">
       <Link href={`/products/${id}`}>  
         <CardHeader>
