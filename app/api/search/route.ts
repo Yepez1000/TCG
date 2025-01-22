@@ -5,10 +5,27 @@ import { Prisma } from '@prisma/client';
 export async function GET(req: NextRequest) {
     // Parse the query parameter from the request URL
     const { searchParams } = new URL(req.url);
-    const query = searchParams.get('q');
+    const category = searchParams.get('category');
+    const query = searchParams.get('query');
     const sortOption = searchParams.get('sort') || '';
 
-
+    
+    const where: any = {
+        isArchived: false,
+      };
+      
+      if (query) {
+        console.log('query is not null')
+        where.OR = [
+          { name: { contains: query } },
+          { id: query },
+        ];
+      }
+      
+      if (category !== "all") {
+        where.category = category;
+      }
+    
 
     let orderBy: Prisma.ProductOrderByWithRelationInput;
 
@@ -24,20 +41,8 @@ export async function GET(req: NextRequest) {
         orderBy = { createdAt: 'desc' }; // Default to sorting by newest
     }
 
-   
-    if (!query) {
-        return NextResponse.json({ error: 'No query provided' }, { status: 400 });
-    }
-
-
     const cards = await prisma.product.findMany({
-        where: {
-            OR: [
-                query ? { name: { contains: query } } : {},
-                query ? { id: query } : {},  // Exact match for ID
-            ],
-            isArchived: false,
-        },
+        where,
         orderBy,
     });
 

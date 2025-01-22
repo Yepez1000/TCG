@@ -57,12 +57,11 @@ export function CartProvider({ children }: Props) {
 
     // Fetch cart items from the database
     async function fetchCartFromDatabase() {
-        console.log("***************fetching cart***************")
+       
         try {
             const response = await fetch("/api/cart"); // Replace with your API route
             const cart = await response.json();
-            console.log("fromapi",cart.items);
-
+          
 
             setCartProducts(cart.items.map((item: any) => ({
                 id: item.productId,
@@ -71,7 +70,7 @@ export function CartProvider({ children }: Props) {
             })));
 
             
-            console.log("cartproducts",cartProducts)
+  
 
 
         } catch (error) {
@@ -79,16 +78,15 @@ export function CartProvider({ children }: Props) {
         }
     }
     useEffect(() => {
-        console.log("Updated cartProducts:", cartProducts);
+        
     }, [cartProducts]);
 
     // Get quantity of a product in the cart
     function getProductQuantity(id: string) {
-        console.log("gettingquantity")
-        console.log("cartproducts",cartProducts)
+       
         const quantity = cartProducts?.find((product) => product.id === id)?.quantity || 0;
 
-        console.log("quantity",quantity)
+      
 
         return quantity;
     }
@@ -96,10 +94,8 @@ export function CartProvider({ children }: Props) {
     // Add one to cart (optimistic update)
     async function addOneToCart(product: Product) {
 
-        console.log("got to add one")
+       
         const quantity = getProductQuantity(product.id);
-
-        console.log("this is session",session)
 
         
 

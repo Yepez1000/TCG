@@ -59,8 +59,6 @@ const ProductList = ({ products } : {products: Product[]}) => {
 }
 
 export default function Home() {
-
-
   const [sortOption, setSortOption] = useState('best-match');
 
   const { data:Products, error: ProductError } = useSWR(`/api/products?sort=${sortOption}`, fetcher);

@@ -20,7 +20,7 @@ export function Search(){
         
         const encodedSeachTerm = encodeURIComponent(searchTerm);
 
-        router.push(`/search?q=${encodedSeachTerm}`)
+        router.push(`/search/all/products?q=${encodedSeachTerm}`)
 
        
         
