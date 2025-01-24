@@ -1,7 +1,13 @@
+.logo {
+    display: flex; /* Keeps the logo flexible */
+    align-items: center; /* Vertically centers the logo content */
+}
+
 /* Styles for the search form */
 .searchForm {
     display: flex;
     flex: 1;
+    padding-left: 170px;
     max-width: 600px;
     margin: 0 20px;
     align-items: middle;

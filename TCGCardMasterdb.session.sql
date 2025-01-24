@@ -1,3 +1,4 @@
+-- Active: 1737571924303@@127.0.0.1@3306@TCGCardMasterdb
 -- @block
 -- SELECT * FROM Cart;
 SELECT * FROM Product;
@@ -29,6 +30,8 @@ JOIN
 -- SELECT * FROM Cart;
 -- SELECT * FROM User;
 
+
+-- @block
 INSERT INTO Banner (
     id, 
     imageUrl, 

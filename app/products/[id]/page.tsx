@@ -55,7 +55,7 @@ export default function CardDetailPage({ params: { id } }: Props) {
                     <ul className="flex space-x-2">
                         <li><Link href="/" className="text-blue-600 hover:underline">All Categories</Link></li>
                         <li>&gt;</li>
-                        <li><Link href="/Pokemon" className="text-blue-600 hover:underline">Pokémon</Link></li>
+                        <li><Link href="/search/pokemon" className="text-blue-600 hover:underline">Pokémon</Link></li>
                         <li>&gt;</li>
                         <li>{product.name}</li>
                     </ul>

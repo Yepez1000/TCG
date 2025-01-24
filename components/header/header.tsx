@@ -7,6 +7,8 @@ import { SignInButton, SignOutButton } from "@/components/main/buttons";
 import { Search } from "@/components/search/search";
 import { CartContext } from "@/components/context/CartContext";
 import { useContext } from "react";
+import Cart from "./shopping-cart"
+
 
 export default function Header() {
     const cart = useContext(CartContext);
@@ -25,21 +27,26 @@ export default function Header() {
     }
     return (
         <nav className="header">
-            <Link href="/">
-                <Image
-                    src="/logo3.png"
-                    height={50}
-                    width={50}
-                    alt="TCGCardMasterLogo"
-                />
-            </Link>
+            <div className = {styles.logo}>
+                <Link href="/">
+                    <Image
+                        src="/logo3.png"
+                        height={50}
+                        width={50}
+                        alt="TCGCardMasterLogo"
+                    />
+                </Link>
+            </div>
+          
             <div className ={styles.searchForm}> 
                 <Search />
             </div>
            
             <ul className={styles.navLinks}>
                 <li>
-                    <Link href="/cart">Cart {productCount}</Link>
+                    <Link href='/cart'>
+                        <Cart itemCount={productCount} color="white"/>
+                    </Link>
                 </li>
                 <li>
                     <SignInButton />

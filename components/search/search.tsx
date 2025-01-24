@@ -28,7 +28,7 @@ export function Search(){
     }
 
     return (
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4  flex justify-center items-center w-screen">
             <form className="flex w-full max-w-sm items-center space-x-2" onSubmit={onSearch}>
                 <Input
                     value={searchTerm}
