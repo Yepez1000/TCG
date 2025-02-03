@@ -52,3 +52,14 @@ VALUES (
 );
 
 DELETE FROM Banner WHERE title = 'Pokemon Banner';
+
+
+-- @block 
+SELECT TABLE_NAME, CONSTRAINT_NAME 
+FROM information_schema.KEY_COLUMN_USAGE 
+WHERE TABLE_NAME = 'Banner';
+
+ALTER TABLE Banner DROP FOREIGN KEY Banner_productId_fkey;
+
+ALTER TABLE Banner DROP INDEX Banner_productId_fkey;
+

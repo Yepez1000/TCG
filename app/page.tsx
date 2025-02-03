@@ -63,7 +63,7 @@ const ProductList = ({ products } : {products: Product[]}) => {
 }
 
 export default function Home() {
-  const [sortOption, setSortOption] = useState('best-match');
+  const [sortOption, setSortOption] = useState('createdAt-desc');
 
   const { data:Products, error: ProductError } = useSWR(`/api/products?sort=${sortOption}`, fetcher);
   const { data:Banners, error: BannerError } = useSWR("api/banners", fetcher);

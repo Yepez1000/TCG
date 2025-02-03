@@ -15,10 +15,10 @@ const SortFilter: FC<SortFilterProps> = ({ sortOption, onSortChange }) => {
                 onChange={(e) => onSortChange(e.target.value)}
                 className="filter-select"
             >
-                <option value="best-match">Best Match</option>
-                <option value={JSON.stringify({ field: "price", order: "asc" })}>Price: Low to High</option>
+                <option value="createdAt-desc">Best Match</option>
+                <option value="price-asc">Price: Low to High</option>
                 <option value="price-desc">Price: High to Low</option>
-                <option value="a-z">A-Z</option>
+                <option value="name-desc">A-Z</option>
             </select>
         </div>
     );

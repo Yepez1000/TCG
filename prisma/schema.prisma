@@ -34,7 +34,7 @@ model Order {
   updatedAt   DateTime    @updatedAt
   sessionId   String
   user        User        @relation(fields: [userId], references: [id])
-  orderItems  OrderItem[]
+  Items  OrderItem[]
   payments    Payment[]
 }
 
@@ -71,6 +71,25 @@ model Product {
   banners     Banner[]
   category    String  
   cartItems   CartItem[]
+
+  // Add pokemonId as an optional foreign key
+  pokemonId   String?  
+  pokemon     Pokemon?   @relation(fields: [pokemonId], references: [id])
+}
+
+model Pokemon {
+  id            String    @id @default(uuid())
+  name          String
+  number        Int?
+  gameName      String
+  rarity        String
+  expansionName String
+  imageUrl      String
+  skus          String @db.Text  // Change from VARCHAR(191) to TEXT
+  variants      String
+  url           String
+  products      Product[]  // One Pokémon has many Products
+  
 }
 
 model ShippingAddress {

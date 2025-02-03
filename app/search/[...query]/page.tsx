@@ -34,7 +34,7 @@ export default function SearchQuery({ params : {query} }: {params: {query:string
     const SearchQuery = SearchParams ? SearchParams.get("q") : null;
     const encodedSearchQuery = encodeURIComponent(SearchQuery || "");
     const category = query[0];
-    const [sortOption, setSortOption] = useState('best-match');
+    const [sortOption, setSortOption] = useState('createdAt-desc');
 
 
 

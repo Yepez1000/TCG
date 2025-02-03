@@ -8,19 +8,11 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const sortOption = searchParams.get('sort') || '';
 
-    console.log("this is sort option", sortOption)
+    const [field, direction] = sortOption.split('-');
 
-    let orderBy: Prisma.ProductOrderByWithRelationInput;
-
-    if (sortOption === 'price-asc') {
-        orderBy = { price: 'asc' };
-    } else if (sortOption === 'price-desc') {
-        orderBy = { price: 'desc' };
-    } else if (sortOption === 'a-z') {
-        orderBy = { name: 'asc' };
-    } else {
-        orderBy = { createdAt: 'desc' }; // Default to sorting by newest
-    }
+    const orderBy: Prisma.ProductOrderByWithRelationInput = field 
+        ? { [field]: direction }
+        : { createdAt: 'desc' }; // Default to sorting by newest
 
     const products = await prisma.product.findMany({
         orderBy,

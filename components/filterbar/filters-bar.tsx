@@ -90,12 +90,12 @@ export function FiltersBar() {
 
         <div className="flex items-center gap-4">
           <span className="text-sm font-medium">Sort & View</span>
-          <Select defaultValue="best-match">
+          <Select defaultValue="createdAt-desc">
             <SelectTrigger className="w-[160px]">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="best-match">Best Match</SelectItem>
+              <SelectItem value="createdAt-desc">Best Match</SelectItem>
               <SelectItem value="price-low">Price: Low to High</SelectItem>
               <SelectItem value="price-high">Price: High to Low</SelectItem>
               <SelectItem value="newest">Newest First</SelectItem>

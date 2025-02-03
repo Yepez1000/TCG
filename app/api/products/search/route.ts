@@ -21,21 +21,12 @@ export async function GET(req: NextRequest) {
     if (category !== "all") {
       where.category = category;
     }
-  
 
-    let orderBy: Prisma.ProductOrderByWithRelationInput;
+    const [field, direction] = sortOption.split('-')
+    const orderBy: Prisma.ProductOrderByWithRelationInput = field 
+        ? { [field]: direction }
+        : { createdAt: 'desc' }; // Default to sorting by newest
 
-    if (sortOption === 'price-asc') {
-        orderBy = { price: 'asc' };
-    } else if (sortOption === 'price-desc') {
-        orderBy = { price: 'desc' };
-    } else if (sortOption === 'name-asc') {
-        orderBy = { name: 'asc' };
-    } else if (sortOption === 'name-desc') {
-        orderBy = { name: 'desc' };
-    } else {
-        orderBy = { createdAt: 'desc' }; // Default to sorting by newest
-    }
 
     const cards = await prisma.product.findMany({
         where,
