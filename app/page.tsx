@@ -9,6 +9,7 @@ import { FeaturedCard } from "@/components/productcard/featured-card"
 import { ProductSection } from '@/components/samplefrontpage/product-section';
 import { HeroBanner } from '@/components/samplefrontpage/hero-banner';
 import { PromotionalBanner } from '@/components/samplefrontpage/promotional-banner';
+import { LatestSetsCarousel } from '@/components/samplefrontpage/latestcarousel';
 
 
 
@@ -34,16 +35,16 @@ const fetcher = async (url: string) =>
 
 const BannerCarousel = ({ banners } : {banners: Banner[]}) => {
   return(
-    <div className="carousel">  
-      <Carousel showArrows={true} showThumbs={false} infiniteLoop={true} autoPlay={true}>
+    <div>  
+      <Carousel showArrows={true} showThumbs={false} infiniteLoop={true} autoPlay={true} interval={10000}>
           {banners.map((banner: any) => (
-          <div key={banner.id}>
-              <Image src={banner.imageUrl} 
-                alt={banner.title || 'Banner image'}
-                layout="responsive"
-                width={1500}
-                height={300}
-                objectFit="cover" >
+           <div key={banner.id} className="relative w-full h-[300px]"> 
+              <Image
+                src={banner.imageUrl}
+                alt={banner.title || "Banner image"}
+                fill // ✅ Uses 100% width & height of parent
+                className="object-cover rounded-lg" // ✅ Ensures no empty spaces
+              >
               </Image>
           </div>
         ))}
@@ -94,7 +95,7 @@ export default function Home() {
 
       <ProductSection title="Best Sellers" products={Products} />
       <ProductSection title="Featured Pokémon Cards" products={Products} />
-      <PromotionalBanner/>
+      <LatestSetsCarousel/>
 
 
     </div>

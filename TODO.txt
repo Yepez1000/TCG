@@ -1,10 +1,35 @@
+
+1. Divide User Dashboard
+
+2. Adding Pokemon Matches Database/ Make The pokemon relation to products  ##hard
+
+Create Roles for users
+
+Remodel Product Page
+
 Create pages
 
 Fix the Filer bar
 
-Make it so that when your adding a pokemon it has to match what you have
+fix the nav bar **make it bigger / make it dynamic **  
 
-fix the nav bar
+fix front page  carousael
+
+Add Pack Animation// Make it relational to products and stripe  # Hard
+
+Make support tickets work
+
+Make footer work
+
+Create social media
+
+Create order Emails, make their orders appear in the orders page
+
+Think about something for shippin 
 
 
-fix front page
+
+
+
+
+
