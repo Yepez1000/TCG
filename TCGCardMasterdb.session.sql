@@ -1,4 +1,4 @@
--- Active: 1737571924303@@127.0.0.1@3306@TCGCardMasterdb
+-- Active: 1737331975059@@127.0.0.1@3306@tcgcardmasterdb
 -- @block
 -- SELECT * FROM Cart;
 SELECT * FROM Product;

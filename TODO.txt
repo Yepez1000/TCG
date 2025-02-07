@@ -1,0 +1,10 @@
+Create pages
+
+Fix the Filer bar
+
+Make it so that when your adding a pokemon it has to match what you have
+
+fix the nav bar
+
+
+fix front page
