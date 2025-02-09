@@ -1,4 +1,4 @@
-import { Button } from "@/components/samplefrontpage/button"
+import { Button } from "@/components/frontpage/button"
 
 export function PromotionalBanner() {
   return (

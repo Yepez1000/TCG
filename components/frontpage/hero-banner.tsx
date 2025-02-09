@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { Button } from "@/components/samplefrontpage/button"
+import { Button } from "@/components/frontpage/button"
 
 export function HeroBanner() {
   return (

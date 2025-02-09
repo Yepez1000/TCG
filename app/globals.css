@@ -50,11 +50,11 @@ a {
 /* Nav Menu Styles */
 .navmenu {
   position: fixed;
-  top: 60px;
+  top: 70px;
   /* Positioned below the header */
   left: 0;
   right: 0;
-  height: 50px;
+  height: 40px;
   /* Adjust to match your nav menu height */
   z-index: 900;
   background-color: #444;

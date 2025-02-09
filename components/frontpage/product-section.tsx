@@ -1,4 +1,4 @@
-import { ProductCard } from "@/components/samplefrontpage/product-card"
+import { ProductCard } from "@/components/frontpage/product-card"
 
 interface ProductSectionProps {
   title: string

@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { ShoppingCart } from "lucide-react"
-import { Button } from "@/components/samplefrontpage/button"
+import { Button } from "@/components/frontpage/button"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,7 +10,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/components/samplefrontpage/navigation-menu"
+} from "@/components/frontpage/navigation-menu"
 import { MagnifyingGlassIcon, PersonIcon } from "@radix-ui/react-icons"
 
 export function Navigation() {

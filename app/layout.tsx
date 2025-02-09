@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Header from "@/components/header/header";
 import NavMenu from "@/components/navmenu/NavMenu";
+import { AnimatedDropdown } from "@/components/navmenu/animated-dropdown";
 import "./globals.css";
 import AuthProvider from '@/components/context/AuthProvider'
 import { Toaster } from "react-hot-toast"
@@ -31,7 +32,7 @@ export default function RootLayout({
                 <Header/>
               </div>
               <div className="navmenu">
-                <NavMenu/>
+                <AnimatedDropdown/>
               </div>
               <div className="main">
                 {children}

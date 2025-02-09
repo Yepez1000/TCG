@@ -6,10 +6,10 @@ import useSWR from "swr";
 import SortFilter  from "../components/filterbar/filter";
 import { useCallback, useState } from 'react';
 import { FeaturedCard } from "@/components/productcard/featured-card"
-import { ProductSection } from '@/components/samplefrontpage/product-section';
-import { HeroBanner } from '@/components/samplefrontpage/hero-banner';
-import { PromotionalBanner } from '@/components/samplefrontpage/promotional-banner';
-import { LatestSetsCarousel } from '@/components/samplefrontpage/latestcarousel';
+import { ProductSection } from '@/components/frontpage/product-section';
+import { HeroBanner } from '@/components/frontpage/hero-banner';
+import { PromotionalBanner } from '@/components/frontpage/promotional-banner';
+import { LatestSetsCarousel } from '@/components/frontpage/latestcarousel';
 
 
 
@@ -42,8 +42,8 @@ const BannerCarousel = ({ banners } : {banners: Banner[]}) => {
               <Image
                 src={banner.imageUrl}
                 alt={banner.title || "Banner image"}
-                fill // ✅ Uses 100% width & height of parent
-                className="object-cover rounded-lg" // ✅ Ensures no empty spaces
+                fill
+                className="object-cover rounded-lg" 
               >
               </Image>
           </div>

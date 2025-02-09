@@ -4,7 +4,7 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { Button } from "@/components/samplefrontpage/button"
+import { Button } from "@/components/frontpage/button"
 
 interface SetCard {
   title: string
