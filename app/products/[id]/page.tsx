@@ -10,6 +10,9 @@ import useSWR from "swr";
 import {CheckoutButton} from '@/components/checkout/checkout';
 import { useContext } from 'react';
 import { CartContext } from '@/components/context/CartContext';
+import ProductDetail from "@/components/productpage/product-detail"
+import ProductListings from "@/components/productpage/product-listings"
+import AlsoBought from "@/components/productpage/also-bought"
 
 interface Props {
     params: {
@@ -47,6 +50,29 @@ export default function CardDetailPage({ params: { id } }: Props) {
         const value = parseInt(e.target.value)
         setQuantity(isNaN(value) ? 1 : Math.max(1, value))
     }
+
+   
+    return (
+        <main className="min-h-screen bg-background">
+        <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-12">
+            <ProductDetail product={product}/>
+            <div className="space-y-4">
+            <h2 className="text-2xl font-bold">Product Description</h2>
+            <p className="text-muted-foreground">
+                The Pokemon TCG: Prismatic Evolution Elite Trainer Box includes everything you need to start your
+                collection: 8 Prismatic Evolution booster packs, 65 card sleeves featuring a stunning Charizard design, 45
+                Energy cards, 6 damage-counter dice, 1 competition-legal coin-flip die, 2 acrylic condition markers, a
+                collector's box to store it all, and a player's guide to the Prismatic Evolution expansion.
+            </p>
+            </div>
+            <ProductListings />
+            <AlsoBought />
+           
+        </div>
+        </main>
+    )
+    
+      
 
     return (
         <div className="min-h-screen flex flex-col">
