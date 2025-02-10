@@ -39,5 +39,4 @@ next-env.d.ts
 
 /components/stripe/stripe.tsx
 
-/public
 public/pokemon_catalog.csv
