@@ -1,0 +1,11 @@
+Model Information:
+* title:	Ender Star - Minecraft
+* source:	https://sketchfab.com/3d-models/ender-star-minecraft-8383f8a55eb04bf4aef27a02b9e59dda
+* author:	serboryt (https://sketchfab.com/serboryt)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Ender Star - Minecraft" (https://sketchfab.com/3d-models/ender-star-minecraft-8383f8a55eb04bf4aef27a02b9e59dda) by serboryt (https://sketchfab.com/serboryt) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

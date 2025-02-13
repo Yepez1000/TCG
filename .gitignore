@@ -40,3 +40,4 @@ next-env.d.ts
 /components/stripe/stripe.tsx
 
 public/pokemon_catalog.csv
+public/pokemon_catalog.csv.zip
