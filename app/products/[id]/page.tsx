@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/profile/card"
-import { Button } from "@/components/profile/button"
-import { Input } from "@/components/profile/input"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/profile/ui/card"
+import { Button } from "@/components/profile/ui/button"
+import { Input } from "@/components/profile/ui/input"
 import { ShoppingCart, Heart } from "lucide-react"
 import Link from 'next/link'
 import useSWR from "swr";

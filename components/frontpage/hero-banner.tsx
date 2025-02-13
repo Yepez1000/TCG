@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { Button } from "@/components/frontpage/button"
+import Link from "next/link"
 
 export function HeroBanner() {
   return (
@@ -15,9 +16,13 @@ export function HeroBanner() {
                 <p className="text-lg mb-4 text-white/90">
                   Purchase and open TCG packs online, and receive real cards delivered to your door!
                 </p>
-                <Button size="lg" variant="secondary">
-                  Open a Pack Now
-                </Button>
+                <Link href = "packopening">
+                   <Button size="lg" variant="secondary">
+                      Open a Pack Now
+                   </Button>
+                </Link>
+               
+                
               </div>
             </div>
             <Image
