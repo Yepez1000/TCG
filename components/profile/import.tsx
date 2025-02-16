@@ -1,51 +1,43 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from "@/components/import/button"
 import { Input } from "@/components/import/input"
 import { Label } from "@/components/import/label"
 import { Textarea } from "@/components/import/textarea"
 import { Card, CardContent } from "@/components/import/card"
-import { Badge } from "@/components/import/badge"
 import { Upload, DollarSign, Package, Tag } from 'lucide-react'
-import { link } from 'fs'
-import { useSession } from 'next-auth/react'
+import { CardDescription, CardHeader, CardTitle } from "@/components/profile/ui/card"
 import useSWR from 'swr'
-import { CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/profile/ui/card"
-import { mutate } from 'swr';
 
 
-const fetcher = async (url: string, email: string) => {
+ 
+interface Product {
+    name: string;
+    expansion: string;
+    description: string;
+    image: File | null;
+    price: string;
+    stock: string;
+    category: string;
+    link: string;
+    priceId: string;
+  }
 
-    const response = await fetch(url,{
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-    })
-    if(!response.ok){throw new Error("Failed to fetch data")}
+const fetcher = async (url: string) => {
 
-    return response.json()
+    const response = await fetch(url);
+    if(!response.ok){throw new Error("Failed to fetch data")};
+    return response.json();
 }
 
 
 export default function ImportPage() {
 
-   
-    interface Product {
-      name: string;
-      description: string;
-      image: File | null;
-      price: string;
-      stock: string;
-      category: string;
-      link: string;
-      priceId: string;
-    }
-    
+
     const [product, setProduct] = useState<Product>({
       name: '',
+      expansion: '',
       description: '',
       image: null,
       price: '',
@@ -54,26 +46,19 @@ export default function ImportPage() {
       link: '',
       priceId: '',
     });
+
     const [previewImage, setPreviewImage] = useState('')
+    const [activeField, setActiveField] = useState<"name" | "expansion" | null>(null);
 
-    const { data: status } = useSession();
 
-    const email = status?.user?.email
-
-    const {data, error, isLoading} = useSWR(
-        email ? ["/api/auth/verify", email] : null,
-        ([url, email]) => fetcher(url, email)
-    )
-
+    const { data:pokemon, error, isLoading } = useSWR(
+        product.name.length >= 2 ? `/api/products/matchpokemon?n=${product.name}&e=${product.expansion}` : null,
+        fetcher
+    );
+    console.log('matching Pokemon', pokemon)
   
-    if (error|| !data?.isSuperUser) {
-        return (
-            <div className="flex items-center justify-center h-screen">
-                <h1 className="text-3xl font-bold">You do not have permission to access this page.</h1>
-            </div>
-        )
 
-    }
+
 
 
     const handleInputChange = (e:any) => {
@@ -83,8 +68,7 @@ export default function ImportPage() {
 
     const handleImageChange = (e: any) => {
         const file = e.target.files[0]
-        console.log("this is the file", file)
-        console.log("this is the file type", file.type)
+     
         if (file) {
             setProduct(prev => ({ ...prev, image: file }))
             setPreviewImage(URL.createObjectURL(file))
@@ -166,10 +150,27 @@ export default function ImportPage() {
 
             console.log("this is the updated product with price", updatedProductWithPriceId)
 
+            // Optionally: Update state with the fully updated product
+            console.log("this is the updated product", updatedProductWithPriceId)
+
+            const response2 = await fetch('/api/products/createPrisma', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ updatedProductWithPriceId }),
+            });
+
+            if(!response2.ok) {
+                throw new Error();
+            }
+
+            const session2 = await response2.json();
+            console.log(session2)
+
 
             // Step 5: Reset form state
             setProduct({
                 name: '',
+                expansion: '',
                 description: '',
                 image: null,
                 price: '',
@@ -194,9 +195,14 @@ export default function ImportPage() {
             <CardContent>
                 <div className="flex flex-col lg:flex-row gap-8">
                     <form onSubmit={handleSubmit} className="flex-1 space-y-6">
+                       
                         <div>
                             <Label htmlFor="name" className="text-lg">Product Name</Label>
                             <Input id="name" name="name" value={product.name} onChange={handleInputChange} required className="mt-1" />
+                        </div>
+                        <div>
+                            <Label htmlFor="expansion" className="text-lg">Expansion Name</Label>
+                            <Input id="expansion" name="expansion" value={product.expansion} onChange={handleInputChange} required className="mt-1" />
                         </div>
                         <div>
                             <Label htmlFor="description" className="text-lg">Description</Label>
@@ -263,3 +269,115 @@ export default function ImportPage() {
         </Card>
     )
 }
+
+
+// import { useState } from "react";
+// import useSWR from "swr";
+
+// const fetcher = async (url: string) => {
+//     const response = await fetch(url);
+//     return response.json();
+// };
+
+// export default function ProductSearchForm() {
+//     const [product, setProduct] = useState({ name: "", expansion: "" });
+//     const [selectedPokemon, setSelectedPokemon] = useState<{ name: string; expansion?: string } | null>(null);
+//     const [activeField, setActiveField] = useState<"name" | "expansion" | null>(null);
+
+//     const { data: pokemon, error, isLoading } = useSWR(
+//         activeField === "name" && product.name.length >= 2
+//             ? `/api/getpokemon?q=${product.name}`
+//             : activeField === "expansion" && product.expansion.length >= 2
+//             ? `/api/getpokemon?expansion=${product.expansion}`
+//             : null,
+//         fetcher
+//     );
+
+//     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//         const { name, value } = e.target;
+//         setProduct((prev) => ({ ...prev, [name]: value }));
+//     };
+
+//     const handleFocus = (field: "name" | "expansion") => {
+//         setActiveField(field);
+//     };
+
+//     const handleSelectPokemon = (name: string) => {
+//         setProduct((prev) => ({ ...prev, name })); // Set name in input
+//         setSelectedPokemon({ name });
+//         setActiveField(null); // Hide recommendations after selecting
+//     };
+
+//     return (
+//         <div className="relative w-full">
+//             {/* Product Name Input */}
+//             <div className="relative">
+//                 <label htmlFor="name" className="text-lg">Product Name</label>
+//                 <input
+//                     id="name"
+//                     name="name"
+//                     value={product.name}
+//                     onChange={handleInputChange}
+//                     onFocus={() => handleFocus("name")}
+//                     required
+//                     className="mt-1 border rounded w-full p-2"
+//                 />
+
+//                 {isLoading && activeField === "name" && <p className="text-gray-500 text-sm">Searching...</p>}
+//                 {error && <p className="text-red-500 text-sm">Error fetching data</p>}
+
+//                 {pokemon?.length > 0 && activeField === "name" && (
+//                     <ul className="absolute bg-white border w-full mt-1 rounded shadow-lg z-10">
+//                         {pokemon.map((p: any) => (
+//                             <li
+//                                 key={p.id}
+//                                 className="p-2 hover:bg-gray-200 cursor-pointer"
+//                                 onClick={() => handleSelectPokemon(p.name)}
+//                             >
+//                                 {p.name}
+//                             </li>
+//                         ))}
+//                     </ul>
+//                 )}
+//             </div>
+
+//             {/* Expansion Name Input */}
+//             <div className="relative mt-4">
+//                 <label htmlFor="expansion" className="text-lg">Expansion Name</label>
+//                 <input
+//                     id="expansion"
+//                     name="expansion"
+//                     value={product.expansion}
+//                     onChange={handleInputChange}
+//                     onFocus={() => handleFocus("expansion")}
+//                     required
+//                     className="mt-1 border rounded w-full p-2"
+//                 />
+
+//                 {isLoading && activeField === "expansion" && <p className="text-gray-500 text-sm">Searching...</p>}
+//                 {error && <p className="text-red-500 text-sm">Error fetching data</p>}
+
+//                 {pokemon?.length > 0 && activeField === "expansion" && (
+//                     <ul className="absolute bg-white border w-full mt-1 rounded shadow-lg z-10">
+//                         {pokemon.map((p: any) => (
+//                             <li
+//                                 key={p.id}
+//                                 className="p-2 hover:bg-gray-200 cursor-pointer"
+//                                 onClick={() => setProduct((prev) => ({ ...prev, expansion: p.expansionName }))}
+//                             >
+//                                 {p.expansionName}
+//                             </li>
+//                         ))}
+//                     </ul>
+//                 )}
+//             </div>
+
+//             {/* Display Selected Pokémon */}
+//             {selectedPokemon && (
+//                 <div className="mt-4 p-2 border rounded bg-gray-100">
+//                     <p className="text-lg font-semibold">Selected Pokémon: {selectedPokemon.name}</p>
+//                 </div>
+//             )}
+//         </div>
+//     );
+// }

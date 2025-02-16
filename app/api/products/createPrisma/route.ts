@@ -1,24 +1,32 @@
 
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+
 export async function POST(req: Request) {
     try{
-        const data = await req.json();
+        const {data} = await req.json();
+        console.log("create prisma data",data)
 
-        const { id, name, description, image, price, stock, category, link , priceId} = data;
+
+
+
 
         
 
         const product = await prisma.product.create({
             data: {
-                id: id,
-                name: name,
-                description: description,
-                imageUrl: link,
-                price: parseFloat(price),
-                stock: parseInt(stock),
-                category: category,
-                priceId: priceId,
+                id: data.id,
+                name: data.cardName,
+                imageUrl: data.link,
+                expansionName: data.expansion,
+                price: parseFloat(data.price),
+                stock: parseInt(data.stock),
+                category: data.category,
+                priceId: data.priceId,
+                condition: data.condition,
+                pokemon: {
+                    connect: {id: data.pokemonId}
+                }
             }
 
         });

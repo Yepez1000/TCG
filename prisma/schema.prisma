@@ -34,7 +34,7 @@ model Order {
   updatedAt   DateTime    @updatedAt
   sessionId   String
   user        User        @relation(fields: [userId], references: [id])
-  Items  OrderItem[]
+  Items       OrderItem[]
   payments    Payment[]
 }
 
@@ -61,11 +61,12 @@ model Product {
   id          String     @id @default(uuid())
   priceId     String
   name        String
-  description String
+  expansionName String
   imageUrl    String
   price       Float
   isArchived  Boolean  @default(false)
   stock       Int
+  condition   String
   createdAt   DateTime   @default(now())
   orderItems  OrderItem[]
   banners     Banner[]
@@ -88,8 +89,9 @@ model Pokemon {
   skus          String @db.Text  // Change from VARCHAR(191) to TEXT
   variants      String
   url           String
+  clicks        Int
+  purchases     Int
   products      Product[]  // One Pokémon has many Products
-  
 }
 
 model ShippingAddress {

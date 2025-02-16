@@ -1,3 +1,5 @@
+import { int } from "three/src/nodes/TSL.js";
+
 const fs = require("fs");
 const { parse } = require("csv-parse");
 const { PrismaClient } = require("@prisma/client");
@@ -14,6 +16,8 @@ type pokemon = {
     skus: string,
     variants: string,
     url: string,
+    clicks: number,
+    purchases: number,
 
 }
 
@@ -36,6 +40,8 @@ async function main() {
           skus: row[6],
           variants: row[7],
           url: row[8],
+          clicks: 0,
+          purchases: 0,
         });
       })
       .on("end", resolve)

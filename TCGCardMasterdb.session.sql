@@ -1,4 +1,4 @@
--- Active: 1737331975059@@127.0.0.1@3306@tcgcardmasterdb
+-- Active: 1737571924303@@127.0.0.1@3306@TCGCardMasterdb
 -- @block
 -- SELECT * FROM Cart;
 SELECT * FROM Product;
@@ -43,8 +43,8 @@ INSERT INTO Banner (
 )
 VALUES (
     UUID(), -- Automatically generates a UUID for the ID
-    '/Pokemon_banner2.webp', -- Corrected path for next/image
-    'Pokemon Banner2', -- Title of the banner
+    '/Pokemon_banner.webp', -- Corrected path for next/image
+    'Pokemon Banner', -- Title of the banner
     'https://example.com/pokemon', -- Link associated with the banner
     NULL, -- Assuming no productId is linked for now
     NOW(), -- Current timestamp for createdAt

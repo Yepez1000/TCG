@@ -56,6 +56,8 @@ CREATE TABLE `Product` (
     `price` DOUBLE NOT NULL,
     `isArchived` BOOLEAN NOT NULL DEFAULT false,
     `stock` INTEGER NOT NULL,
+    `shipping` INTEGER NOT NULL,
+    `condition` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `category` VARCHAR(191) NOT NULL,
     `pokemonId` VARCHAR(191) NULL,
@@ -75,6 +77,8 @@ CREATE TABLE `Pokemon` (
     `skus` TEXT NOT NULL,
     `variants` VARCHAR(191) NOT NULL,
     `url` VARCHAR(191) NOT NULL,
+    `clicks` INTEGER NOT NULL,
+    `purchases` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

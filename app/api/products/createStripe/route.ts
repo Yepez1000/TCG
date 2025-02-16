@@ -7,6 +7,8 @@ export async function POST(request: Request) {
     try {
         const { card } = await request.json();
 
+        console.log('Stripe card',card )
+
         const images = Array.isArray(card.link)
             ? card.link // If already an array, use it
             : card.link
@@ -15,18 +17,17 @@ export async function POST(request: Request) {
 
 
         const product = await stripe.products.create({
-            name: card.name,
-            description: card.description,
+            name: card.cardName,
+            description: card.expansion,
             active: true,
             metadata: {
-                name: card.name,
+                name: card.cardName,
             },
             default_price_data: {
                 currency: 'usd',
                 unit_amount_decimal: card.price,
             },
             images,
-            
 
         });
 

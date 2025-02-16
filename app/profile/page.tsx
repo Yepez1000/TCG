@@ -1,8 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/profile/ui/tabs"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/profile/ui/avatar"
+import { Avatar, AvatarImage } from "@/components/profile/ui/avatar"
 import { useSession } from 'next-auth/react'
 import useSWR from 'swr';
 
@@ -12,6 +11,7 @@ import UpdateUserProfile from '@/components/profile/profile-update'
 import SupportTicket from '@/components/profile/support-ticket'
 import Delete from '@/components/profile/delete'
 import UserOrder from '@/components/profile/user-orders'
+import { CreateListing } from "@/components/profile/import/create-listing";
 
 
 const fetcher = async (url: string, email: string) => {
@@ -119,7 +119,7 @@ export default function BlockPage() {
                     
                     {data?.isSuperUser && (
                     <TabsContent value="product">
-                        <ImportPage/>
+                        <CreateListing />
                     </TabsContent>
                    
                     )}
